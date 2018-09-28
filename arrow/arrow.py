@@ -56,6 +56,7 @@ class Arrow(object):
     _ATTRS = ['year', 'month', 'day', 'hour', 'minute', 'second', 'microsecond']
     _ATTRS_PLURAL = ['{0}s'.format(a) for a in _ATTRS]
     _MONTHS_PER_QUARTER = 3
+    _YEARS_PER_CENTURY = 100
 
     def __init__(self, year, month, day, hour=0, minute=0, second=0, microsecond=0,
                  tzinfo=None):
@@ -544,7 +545,7 @@ class Arrow(object):
 
         for key, value in kwargs.items():
 
-            if key in self._ATTRS_PLURAL or key in ['weeks', 'quarters', 'weekday']:
+            if key in self._ATTRS_PLURAL or key in ['weeks', 'quarters', 'weekday', 'centuries']:
                 relative_kwargs[key] = value
             else:
                 raise AttributeError()
@@ -552,6 +553,8 @@ class Arrow(object):
         # core datetime does not support quarters, translate to months.
         relative_kwargs.setdefault('months', 0)
         relative_kwargs['months'] += relative_kwargs.pop('quarters', 0) * self._MONTHS_PER_QUARTER
+        relative_kwargs.setdefault('years', 0)
+        relative_kwargs['years'] += relative_kwargs.pop('centuries', 0) * self._YEARS_PER_CENTURY
 
         current = self._datetime + relativedelta(**relative_kwargs)
 
