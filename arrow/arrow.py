@@ -512,7 +512,8 @@ class Arrow(object):
         return self.fromdatetime(current)
 
     def shift(self, **kwargs):
-        ''' Returns a new :class:`Arrow <arrow.arrow.Arrow>` object with attributes updated
+        '''
+        Returns a new :class:`Arrow <arrow.arrow.Arrow>` object with attributes updated
         according to inputs.
 
         Use pluralized property names to shift their current value relatively:
